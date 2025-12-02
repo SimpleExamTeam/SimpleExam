@@ -1,0 +1,41 @@
+server:
+  port: "8080"
+  mode: "release"  # debug or release
+
+database:
+  driver: "mysql"
+  host: "127.0.0.1"
+  port: "3306"
+  username: "admin"
+  password: "123456"
+  dbname: "simple_exam"
+
+jwt:
+  secret: "your-secret-key"
+  expire_time: 86400
+
+# 日志配置
+log:
+  level: "debug"           # 日志级别: debug, info, warn, error
+  format: "text"          # 日志格式: json, text
+  output: "both"          # 输出方式: console, file, both
+  file_path: "logs/app.log"  # 日志文件路径
+  max_size: 100           # 单个日志文件最大大小(MB)
+  max_backups: 3          # 保留的旧日志文件数量
+  max_age: 28             # 日志文件保留天数
+  compress: true          # 是否压缩旧日志文件
+
+wechat:
+  app_id: "wx1111111111"       # 你的公众号 AppID
+  app_secret: "ecf1111111111"  # 你的 AppSecret
+  mch_id: "1600000000"         # 商户号
+  pay_key: "dfadsadsa"         # 商户支付密钥
+  notify_url: "https://example.com/api/v1/payments/notify"  # 后端支付回调地址
+  oauth_redirect: "https://example.com/wechat/callback"  # 前端网页授权回调地址
+  admin_oauth_redirect: "https://example.com/admin/wechat-callback"
+  qrcode_callback: "https://example.com/wechat/qrcode/callback"  # 前端二维码登录回调地址
+  admin_qrcode_callback: "https://example.com/admin/wechat-qrcode-callback"
+  refund_url: "https://api.mch.weixin.qq.com/secapi/pay/refund"  # 退款接口URL
+  refund_notify_url: "https://example.com/api/v1/payments/refund/notify"  # 退款回调通知URL
+  refund_query_url: "https://api.mch.weixin.qq.com/pay/refundquery"  # 退款查询URL
+  cert_path: "certs/apiclient_cert.p12"  # 商户证书路径
