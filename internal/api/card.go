@@ -86,10 +86,13 @@ func RedeemCard(c *gin.Context) {
 		return
 	}
 
-	// 验证用户是否已经购买过该课程
+	now := time.Now()
+
+	// 验证用户是否已经购买过该课程（忽略已过期订单）
 	var orderCount int64
 	database.DB.Model(&model.Order{}).
 		Where("user_id = ? AND course_id = ? AND status = ?", userID, req.CourseID, "paid").
+		Where("(expire_time IS NULL OR expire_time > ?)", now).
 		Count(&orderCount)
 	if orderCount > 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -103,7 +106,6 @@ func RedeemCard(c *gin.Context) {
 	tx := database.DB.Begin()
 
 	// 创建订单
-	now := time.Now()
 	orderExpireTime := now.AddDate(0, 0, card.ExpireDays)
 	orderNo := now.Format("20060102150405") + strconv.Itoa(int(userID.(uint)))
 	order := model.Order{
