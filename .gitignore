@@ -10,6 +10,7 @@ public/
 scripts/
 docs/
 logs/
+*.exe
 
 # Dependency directories
 vendor/
