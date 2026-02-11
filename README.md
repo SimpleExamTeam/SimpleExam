@@ -1,4 +1,4 @@
-# 考试系统后端
+# Simple Exam 考试系统
 
 基于 Gin 框架开发的在线考试系统后端
 
@@ -8,24 +8,44 @@
 - GORM: ORM 框架
 - JWT: 用户认证
 - MySQL: 数据存储
-- Redis: 缓存
 - 微信SDK: 微信登录和支付
+- Zap: 高性能日志库
+- Lumberjack: 日志轮转
 
 ## 项目结构
 
 ```
 .
-├── cmd                     # 程序入口
-├── config                  # 配置文件
-├── internal               
-│   ├── api                # API 处理器
-│   ├── middleware         # 中间件
-│   ├── model             # 数据模型
-│   ├── repository        # 数据访问层
-│   ├── service          # 业务逻辑层
-│   └── pkg              # 内部公共包
-├── pkg                    # 外部可用的公共包
-└── scripts                # 脚本文件
+├── .github/               # GitHub Actions 工作流
+├── certs/                 # 微信支付证书目录
+├── config/                # 配置文件
+│   ├── config.example.yaml
+│   └── config.yaml
+├── docs/                  # 文档目录
+│   ├── BUILD.md          # 构建文档
+│   └── CONFIG.md         # 配置文档
+├── internal/              # 内部代码
+│   ├── api/              # API 处理器
+│   │   └── admin/        # 管理端 API
+│   ├── config/           # 配置加载
+│   ├── controller/       # 控制器层
+│   ├── middleware/       # 中间件
+│   ├── model/            # 数据模型
+│   ├── pkg/              # 内部公共包
+│   │   ├── banner/       # 启动横幅
+│   │   ├── database/     # 数据库初始化
+│   │   ├── logger/       # 日志工具
+│   │   └── payment/      # 支付相关
+│   ├── router/           # 路由配置
+│   ├── service/          # 业务逻辑层
+│   ├── types/            # 类型定义
+│   └── utils/            # 工具函数
+├── logs/                  # 日志文件目录
+├── main.go                # 程序入口
+├── embed.go               # 静态资源嵌入
+├── Makefile               # 构建脚本
+├── build.sh               # Linux/macOS 构建脚本
+└── build.ps1              # Windows 构建脚本
 ```
 
 ## 快速开始
@@ -69,7 +89,7 @@ make run          # 构建并运行
 .\build.ps1
 ```
 
-详细构建说明请参考 [BUILD.md](BUILD.md)
+详细构建说明请参考 [构建文档](docs/BUILD.md)
 
 ### 4. 运行项目
 ```bash
@@ -97,15 +117,12 @@ make run          # 构建并运行
                     | |                                         
                     |_|                                         
 
-  Version:     v0.1.2
+  Version:     v0.1.0
   Commit:      a1b2c3d
-  Build Time:  2024-02-11 10:30:00
+  Build Time:  2026-02-11 10:30:00
   Go Version:  go1.21.0
   OS/Arch:     windows/amd64
 ```
-
-## 数据库设计
-
 
 ## API 文档
 
