@@ -4,6 +4,7 @@ import (
 	"context"
 	"exam-system/internal/config"
 	"exam-system/internal/middleware"
+	"exam-system/internal/pkg/banner"
 	"exam-system/internal/pkg/database"
 	"exam-system/internal/pkg/logger"
 	"exam-system/internal/router"
@@ -21,9 +22,9 @@ import (
 
 // 版本信息，编译时通过 ldflags 设置
 var (
-	Version   = "v0.1.2"
-	BuildTime = "unknown"
-	GoVersion = "unknown"
+	Version    = "v0.1.2"
+	CommitHash = "unknown"
+	BuildTime  = "unknown"
 )
 
 func main() {
@@ -115,6 +116,9 @@ func main() {
 
 // startApp 启动应用程序的主要逻辑
 func startApp() error {
+	// 打印启动横幅
+	banner.Print(Version, CommitHash, BuildTime)
+
 	// 加载配置
 	_, err := config.Load()
 	if err != nil {
