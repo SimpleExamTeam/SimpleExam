@@ -7,6 +7,13 @@ on:
       - 'v*'
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      force_build_frontend:
+        description: '强制重新构建前端（即使目录已存在）'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build-frontend:
@@ -24,13 +31,15 @@ jobs:
     - name: Check if frontend needs building
       id: check
       run: |
-        if [ ! -d "public/user" ] || [ -z "$(ls -A public/user 2>/dev/null)" ]; then
+        FORCE_BUILD="${{ github.event.inputs.force_build_frontend }}"
+        
+        if [ "$FORCE_BUILD" = "true" ] || [ ! -d "public/user" ] || [ -z "$(ls -A public/user 2>/dev/null)" ]; then
           echo "need_user=true" >> $GITHUB_OUTPUT
         else
           echo "need_user=false" >> $GITHUB_OUTPUT
         fi
         
-        if [ ! -d "public/admin" ] || [ -z "$(ls -A public/admin 2>/dev/null)" ]; then
+        if [ "$FORCE_BUILD" = "true" ] || [ ! -d "public/admin" ] || [ -z "$(ls -A public/admin 2>/dev/null)" ]; then
           echo "need_admin=true" >> $GITHUB_OUTPUT
         else
           echo "need_admin=false" >> $GITHUB_OUTPUT
@@ -63,7 +72,7 @@ jobs:
         rm -rf admin-temp
 
     - name: Upload frontend artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: frontend-dist
         path: public/
@@ -96,7 +105,7 @@ jobs:
         fetch-depth: 0
 
     - name: Download frontend artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: frontend-dist
         path: public/
@@ -125,7 +134,7 @@ jobs:
         go build -ldflags "-X 'main.Version=${{ steps.version.outputs.version }}' -X 'main.CommitHash=${{ steps.version.outputs.commit }}' -X 'main.BuildTime=${{ steps.version.outputs.buildtime }}' -s -w" -o ${{ matrix.output }} .
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.output }}
         path: ${{ matrix.output }}
@@ -138,15 +147,18 @@ jobs:
     
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
+      with:
+        pattern: simpleexam-*
+        merge-multiple: true
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          simpleexam-linux-amd64/simpleexam-linux-amd64
-          simpleexam-windows-amd64.exe/simpleexam-windows-amd64.exe
-          simpleexam-darwin-amd64/simpleexam-darwin-amd64
+          simpleexam-linux-amd64
+          simpleexam-windows-amd64.exe
+          simpleexam-darwin-amd64
         draft: false
         prerelease: false
       env:
