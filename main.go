@@ -120,7 +120,7 @@ func startApp() error {
 	banner.Print(Version, CommitHash, BuildTime)
 
 	// 加载配置
-	_, err := config.Load()
+	cfg, err := config.Load()
 	if err != nil {
 		return fmt.Errorf("加载配置失败: %v", err)
 	}
@@ -131,7 +131,7 @@ func startApp() error {
 		return fmt.Errorf("初始化日志系统失败: %v", err)
 	}
 
-	logger.Info("配置加载完成")
+	logger.Infof("配置加载完成，配置文件: %s", cfg.ConfigPath)
 
 	// 初始化数据库
 	err = database.Setup()

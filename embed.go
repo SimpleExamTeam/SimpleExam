@@ -19,10 +19,6 @@ func GetUserFS() http.FileSystem {
 	if err != nil {
 		panic(err)
 	}
-
-	// 调试：打印用户端文件
-	printFSFiles("用户端文件系统", sub)
-
 	return http.FS(sub)
 }
 
@@ -32,10 +28,6 @@ func GetAdminFS() http.FileSystem {
 	if err != nil {
 		panic(err)
 	}
-
-	// 调试：打印管理端文件
-	printFSFiles("管理端文件系统", sub)
-
 	return http.FS(sub)
 }
 

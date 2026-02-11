@@ -9,6 +9,8 @@ import (
 )
 
 type Config struct {
+	ConfigPath string // 配置文件路径（运行时设置）
+	
 	Server struct {
 		Port string `yaml:"port"`
 		Mode string `yaml:"mode"`
@@ -96,10 +98,6 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("解析配置文件失败: %v", err)
 	}
 
-	// 添加调试信息
-	fmt.Printf("加载配置文件: %s\n", configPath)
-	fmt.Printf("微信配置: %+v\n", config.WeChat)
-
 	// 设置默认值
 	// 日志配置默认值
 	if config.Log.Level == "" {
@@ -174,6 +172,9 @@ func Load() (*Config, error) {
 			config.WeChat.RefundNotifyURL = baseURL + config.WeChat.RefundNotifyURL
 		}
 	}
+
+	// 保存配置文件路径
+	config.ConfigPath = configPath
 
 	GlobalConfig = config
 	return config, nil
