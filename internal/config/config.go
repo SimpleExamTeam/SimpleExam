@@ -44,14 +44,15 @@ type Config struct {
 		AppSecret           string `yaml:"app_secret"`
 		MchID               string `yaml:"mch_id"`
 		PayKey              string `yaml:"pay_key"`
-		NotifyURL           string `yaml:"notify_url"`
-		OAuthRedirect       string `yaml:"oauth_redirect"`
-		AdminOAuthRedirect  string `yaml:"admin_oauth_redirect"` // 管理员微信网页授权回调地址
-		QRCodeCallback      string `yaml:"qrcode_callback"`
-		AdminQRCodeCallback string `yaml:"admin_qrcode_callback"` // 管理员二维码扫码回调地址
-		RefundURL           string `yaml:"refund_url"`            // 退款接口URL
-		RefundNotifyURL     string `yaml:"refund_notify_url"`     // 退款回调通知URL
-		RefundQueryURL      string `yaml:"refund_query_url"`      // 退款查询URL
+		BaseURL             string `yaml:"base_url"`              // 基础域名，如 https://example.com
+		NotifyURL           string `yaml:"notify_url"`            // 支付回调地址（完整URL或相对路径）
+		OAuthRedirect       string `yaml:"oauth_redirect"`        // 用户网页授权回调地址（相对路径）
+		AdminOAuthRedirect  string `yaml:"admin_oauth_redirect"`  // 管理员网页授权回调地址（相对路径）
+		QRCodeCallback      string `yaml:"qrcode_callback"`       // 用户二维码登录回调地址（相对路径）
+		AdminQRCodeCallback string `yaml:"admin_qrcode_callback"` // 管理员二维码登录回调地址（相对路径）
+		RefundURL           string `yaml:"refund_url"`            // 退款接口URL（微信API）
+		RefundNotifyURL     string `yaml:"refund_notify_url"`     // 退款回调通知URL（完整URL或相对路径）
+		RefundQueryURL      string `yaml:"refund_query_url"`      // 退款查询URL（微信API）
 		CertPath            string `yaml:"cert_path"`             // 商户证书路径
 	} `yaml:"wechat"`
 }
@@ -123,7 +124,7 @@ func Load() (*Config, error) {
 		config.Log.MaxAge = 28 // 28天
 	}
 
-	// 微信配置默认值
+	// 微信配置默认值和URL拼接
 	if config.WeChat.RefundURL == "" {
 		config.WeChat.RefundURL = "https://api.mch.weixin.qq.com/secapi/pay/refund"
 	}
@@ -132,6 +133,46 @@ func Load() (*Config, error) {
 	}
 	if config.WeChat.CertPath == "" {
 		config.WeChat.CertPath = "certs/apiclient_cert.p12"
+	}
+
+	// 如果配置了 base_url，则自动拼接相对路径的 URL
+	if config.WeChat.BaseURL != "" {
+		baseURL := config.WeChat.BaseURL
+		
+		// 确保 base_url 不以斜杠结尾
+		if baseURL[len(baseURL)-1] == '/' {
+			baseURL = baseURL[:len(baseURL)-1]
+		}
+		
+		// 拼接支付回调地址
+		if config.WeChat.NotifyURL != "" && config.WeChat.NotifyURL[0] == '/' {
+			config.WeChat.NotifyURL = baseURL + config.WeChat.NotifyURL
+		}
+		
+		// 拼接用户网页授权回调地址
+		if config.WeChat.OAuthRedirect != "" && config.WeChat.OAuthRedirect[0] == '/' {
+			config.WeChat.OAuthRedirect = baseURL + config.WeChat.OAuthRedirect
+		}
+		
+		// 拼接管理员网页授权回调地址
+		if config.WeChat.AdminOAuthRedirect != "" && config.WeChat.AdminOAuthRedirect[0] == '/' {
+			config.WeChat.AdminOAuthRedirect = baseURL + config.WeChat.AdminOAuthRedirect
+		}
+		
+		// 拼接用户二维码登录回调地址
+		if config.WeChat.QRCodeCallback != "" && config.WeChat.QRCodeCallback[0] == '/' {
+			config.WeChat.QRCodeCallback = baseURL + config.WeChat.QRCodeCallback
+		}
+		
+		// 拼接管理员二维码登录回调地址
+		if config.WeChat.AdminQRCodeCallback != "" && config.WeChat.AdminQRCodeCallback[0] == '/' {
+			config.WeChat.AdminQRCodeCallback = baseURL + config.WeChat.AdminQRCodeCallback
+		}
+		
+		// 拼接退款回调通知地址
+		if config.WeChat.RefundNotifyURL != "" && config.WeChat.RefundNotifyURL[0] == '/' {
+			config.WeChat.RefundNotifyURL = baseURL + config.WeChat.RefundNotifyURL
+		}
 	}
 
 	GlobalConfig = config
