@@ -8,7 +8,6 @@ tmp/
 static/
 public/
 scripts/
-docs/
 logs/
 *.exe
 
