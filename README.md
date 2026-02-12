@@ -50,6 +50,26 @@
 
 ## 快速开始
 
+### 方式一：Docker 部署（推荐）
+
+使用 Docker 是最简单的部署方式，无需安装 Go 和 Node.js 环境。
+
+```bash
+# 1. 准备配置文件
+cp config/config.example.yaml config/config.yaml
+# 编辑 config/config.yaml，修改数据库连接等配置
+
+# 2. 使用 docker-compose 一键启动（包含数据库）
+docker-compose up -d
+
+# 3. 查看日志
+docker-compose logs -f app
+```
+
+详细的 Docker 部署说明请参考 [Docker 部署文档](docs/DOCKER.md)
+
+### 方式二：本地开发
+
 ### 1. 安装依赖
 ```bash
 go mod download
@@ -82,8 +102,9 @@ make run          # 构建并运行
 
 **使用构建脚本:**
 ```bash
-# Linux/macOS
-./build.sh
+# Linux/macOS（首次使用需要添加执行权限）
+chmod +x docker-build.sh
+./docker-build.sh
 
 # Windows PowerShell
 .\build.ps1
@@ -125,4 +146,21 @@ make run          # 构建并运行
 ```
 
 ## API 文档
+
+### 健康检查接口
+
+- `GET /api/v1/health` - 健康检查接口
+
+```bash
+curl http://localhost:8080/api/v1/health
+```
+
+响应示例：
+```json
+{
+  "status": "ok"
+}
+```
+
+### 其他 API
 
