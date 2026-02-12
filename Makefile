@@ -1,10 +1,12 @@
-.PHONY: build run clean test help
+.PHONY: build run clean test help docker-build docker-build-local docker-run docker-stop docker-compose-up docker-compose-down
 
 # 版本信息
 VERSION ?= v0.1.2
 COMMIT_HASH := $(shell git rev-parse HEAD 2>/dev/null || echo "unknown")
 BUILD_TIME := $(shell date '+%Y-%m-%d %H:%M:%S')
 OUTPUT := simpleexam
+DOCKER_IMAGE := simpleexam
+DOCKER_TAG := latest
 
 # 编译标志
 LDFLAGS := -X 'main.Version=$(VERSION)' \
@@ -92,4 +94,77 @@ help:
 	@echo "  make test           - Run tests"
 	@echo "  make fmt            - Format code"
 	@echo "  make vet            - Vet code"
+	@echo ""
+	@echo "Docker commands:"
+	@echo "  make docker-build        - Build Docker image (full build with frontend)"
+	@echo "  make docker-build-local  - Build Docker image (using local frontend)"
+	@echo "  make docker-run          - Run Docker container"
+	@echo "  make docker-stop         - Stop and remove Docker container"
+	@echo "  make docker-compose-up   - Start services with docker-compose"
+	@echo "  make docker-compose-down - Stop services with docker-compose"
+	@echo ""
 	@echo "  make help           - Show this help message"
+
+# Docker 命令
+
+# 构建 Docker 镜像（完整构建，包含前端）
+docker-build:
+	@echo "Building Docker image (full build with frontend)..."
+	@docker build -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	@echo "Docker image built: $(DOCKER_IMAGE):$(DOCKER_TAG)"
+
+# 构建 Docker 镜像（使用本地前端文件）
+docker-build-local:
+	@echo "Building Docker image (using local frontend)..."
+	@if [ ! -d "public/user" ] || [ -z "$$(ls -A public/user 2>/dev/null)" ]; then \
+		echo "Error: public/user directory not found or empty"; \
+		exit 1; \
+	fi
+	@if [ ! -d "public/admin" ] || [ -z "$$(ls -A public/admin 2>/dev/null)" ]; then \
+		echo "Error: public/admin directory not found or empty"; \
+		exit 1; \
+	fi
+	@docker build -f Dockerfile.local -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	@echo "Docker image built: $(DOCKER_IMAGE):$(DOCKER_TAG)"
+
+# 运行 Docker 容器
+docker-run:
+	@echo "Running Docker container..."
+	@docker run -d \
+		--name $(DOCKER_IMAGE) \
+		-p 8080:8080 \
+		-v $$(pwd)/config/config.yaml:/app/config/config.yaml:ro \
+		-v $$(pwd)/certs:/app/certs:ro \
+		-v $$(pwd)/logs:/app/logs \
+		-e TZ=Asia/Shanghai \
+		$(DOCKER_IMAGE):$(DOCKER_TAG)
+	@echo "Container started: $(DOCKER_IMAGE)"
+	@echo "Access the application at http://localhost:8080"
+
+# 停止并删除 Docker 容器
+docker-stop:
+	@echo "Stopping Docker container..."
+	@docker stop $(DOCKER_IMAGE) 2>/dev/null || true
+	@docker rm $(DOCKER_IMAGE) 2>/dev/null || true
+	@echo "Container stopped and removed"
+
+# 使用 docker-compose 启动服务
+docker-compose-up:
+	@echo "Starting services with docker-compose..."
+	@docker-compose up -d
+	@echo "Services started"
+	@echo "Access the application at http://localhost:8080"
+
+# 使用 docker-compose 停止服务
+docker-compose-down:
+	@echo "Stopping services with docker-compose..."
+	@docker-compose down
+	@echo "Services stopped"
+
+# 查看 Docker 日志
+docker-logs:
+	@docker logs -f $(DOCKER_IMAGE)
+
+# 查看 docker-compose 日志
+docker-compose-logs:
+	@docker-compose logs -f app

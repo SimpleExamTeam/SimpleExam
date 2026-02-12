@@ -98,6 +98,23 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("解析配置文件失败: %v", err)
 	}
 
+	// 环境变量覆盖配置（用于 Docker 部署）
+	if dbHost := os.Getenv("DB_HOST"); dbHost != "" {
+		config.Database.Host = dbHost
+	}
+	if dbPort := os.Getenv("DB_PORT"); dbPort != "" {
+		config.Database.Port = dbPort
+	}
+	if dbUser := os.Getenv("DB_USER"); dbUser != "" {
+		config.Database.Username = dbUser
+	}
+	if dbPassword := os.Getenv("DB_PASSWORD"); dbPassword != "" {
+		config.Database.Password = dbPassword
+	}
+	if dbName := os.Getenv("DB_NAME"); dbName != "" {
+		config.Database.DBName = dbName
+	}
+
 	// 设置默认值
 	// 日志配置默认值
 	if config.Log.Level == "" {

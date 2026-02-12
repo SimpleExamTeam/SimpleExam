@@ -1,0 +1,43 @@
+# Git 相关
+.git
+.gitignore
+.github
+
+# 文档
+*.md
+docs/
+
+# 日志
+logs/
+*.log
+
+# 构建产物
+*.exe
+simpleexam
+simpleexam-*
+
+# 前端构建产物（Dockerfile 会自动构建，Dockerfile.local 需要保留）
+# 如果使用 Dockerfile.local，请注释掉下面这行
+# public/
+
+# 配置文件（运行时挂载）
+config/config.yaml
+
+# 证书（运行时挂载）
+certs/*.p12
+certs/*.pem
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# 测试文件
+*_test.go
