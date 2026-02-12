@@ -14,6 +14,9 @@ import (
 
 // SetupRoutes 配置所有路由
 func SetupRoutes(r *gin.Engine, userFS, adminFS http.FileSystem) {
+	// 健康检查接口（不需要任何中间件）
+	r.GET("/api/v1/health", api.SimpleHealthCheck)
+
 	// 设置静态文件路由 - 直接访问静态资源文件
 	r.StaticFS("/static/user", userFS)
 	r.StaticFS("/static/admin", adminFS)
