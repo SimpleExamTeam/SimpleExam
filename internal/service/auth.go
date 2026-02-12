@@ -75,7 +75,8 @@ func (s *AuthService) EnsureDefaultAdmin() error {
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		// 创建默认管理员账号
-		hashedPassword, hashErr := bcrypt.GenerateFromPassword([]byte("simple_exam"), bcrypt.DefaultCost)
+		defaultPassword := "simple_exam"
+		hashedPassword, hashErr := bcrypt.GenerateFromPassword([]byte(defaultPassword), bcrypt.DefaultCost)
 		if hashErr != nil {
 			return fmt.Errorf("生成管理员默认密码失败: %w", hashErr)
 		}
@@ -91,7 +92,7 @@ func (s *AuthService) EnsureDefaultAdmin() error {
 			return fmt.Errorf("创建默认管理员账号失败: %w", createErr)
 		}
 
-		logger.Infof("默认管理员账号已创建，用户名: %s", admin.Username)
+		logger.Infof("默认管理员账号已创建，用户名: %s, 密码: %s", admin.Username, defaultPassword)
 		return nil
 	}
 
