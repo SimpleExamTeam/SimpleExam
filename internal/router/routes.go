@@ -112,7 +112,9 @@ func setupAPIRoutes(r *gin.Engine) {
 		{
 			practice.GET("/wrong-questions", api.GetWrongQuestionsStats)
 			practice.GET("/wrong-questions/:course_id", api.GetWrongQuestionsByCourse)
+			practice.DELETE("/wrong-questions", api.ClearWrongQuestions)
 			practice.POST("/submit", api.SubmitPractice)
+			practice.POST("/question/:id/explanation", api.GenerateExplanation)
 		}
 
 		// 考试相关

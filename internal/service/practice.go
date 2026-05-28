@@ -2,8 +2,11 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
+	"exam-system/internal/config"
 	"exam-system/internal/model"
 	"exam-system/internal/pkg/database"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -492,6 +495,13 @@ func (s *PracticeService) Submit(userId uint, questionId uint, answer []string) 
 	return true, nil
 }
 
+// 清空用户所有错题
+func (s *PracticeService) ClearWrongQuestions(userId uint) error {
+	return database.DB.Model(&model.ExamRecord{}).
+		Where("user_id = ?", userId).
+		Update("wrong_answers", "[]").Error
+}
+
 // 获取特定课程的所有错题（不分页）
 func (s *PracticeService) GetAllWrongQuestionsByCourse(userId uint, courseId int) ([]WrongQuestionDetail, int64, error) {
 	// 1. 查询用户的指定课程的所有考试记录，并关联订单表检查过期时间
@@ -674,4 +684,28 @@ func (s *PracticeService) GetAllWrongQuestionsByCourse(userId uint, courseId int
 	}
 
 	return result, total, nil
+}
+
+func (s *PracticeService) GenerateQuestionExplanation(questionId uint, force bool) (string, error) {
+	var question model.Question
+	if err := database.DB.First(&question, questionId).Error; err != nil {
+		return "", errors.New("题目不存在")
+	}
+
+	if question.Explanation != "" {
+		if !force && !config.GlobalConfig.AI.Explanation.AllowOverride {
+			return "", errors.New("题目已有解析，不允许覆盖")
+		}
+	}
+
+	explanation, err := AI.GenerateExplanation(question.Question, question.Type, question.Options, question.Answer)
+	if err != nil {
+		return "", err
+	}
+
+	if err := database.DB.Model(&question).Update("explanation", explanation).Error; err != nil {
+		return "", fmt.Errorf("保存解析失败: %v", err)
+	}
+
+	return explanation, nil
 }

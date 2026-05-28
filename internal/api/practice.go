@@ -88,6 +88,58 @@ func GetWrongQuestionsByCourse(c *gin.Context) {
 	})
 }
 
+// 清空所有错题
+func ClearWrongQuestions(c *gin.Context) {
+	userId := c.GetUint("userId")
+	if err := service.Practice.ClearWrongQuestions(userId); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 500,
+			"msg":  err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "错题已清空",
+	})
+}
+
+// AI生成题目解析
+type GenerateExplanationRequest struct {
+	Force bool `json:"force"`
+}
+
+func GenerateExplanation(c *gin.Context) {
+	questionId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": 400,
+			"msg":  "无效的题目ID",
+		})
+		return
+	}
+
+	var req GenerateExplanationRequest
+	_ = c.ShouldBindJSON(&req)
+
+	explanation, err := service.Practice.GenerateQuestionExplanation(uint(questionId), req.Force)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 500,
+			"msg":  err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"data": gin.H{
+			"explanation": explanation,
+		},
+	})
+}
+
 // 提交练习答案
 func SubmitPractice(c *gin.Context) {
 	userId := c.GetUint("userId")

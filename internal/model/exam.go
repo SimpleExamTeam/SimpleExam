@@ -4,6 +4,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -19,8 +20,13 @@ func (a *StringArray) Scan(value interface{}) error {
 		return nil
 	}
 
-	bytes, ok := value.([]byte)
-	if !ok {
+	var bytes []byte
+	switch v := value.(type) {
+	case []byte:
+		bytes = v
+	case string:
+		bytes = []byte(v)
+	default:
 		return errors.New("failed to unmarshal JSON value")
 	}
 
@@ -51,12 +57,40 @@ func (o *QuestionOptions) Scan(value interface{}) error {
 		return nil
 	}
 
-	bytes, ok := value.([]byte)
-	if !ok {
+	var bytes []byte
+	switch v := value.(type) {
+	case []byte:
+		bytes = v
+	case string:
+		bytes = []byte(v)
+	default:
 		return errors.New("failed to unmarshal JSON value")
 	}
 
-	return json.Unmarshal(bytes, o)
+	var opts []QuestionOption
+	if err := json.Unmarshal(bytes, &opts); err == nil {
+		*o = opts
+		return nil
+	}
+
+	var strOpts []string
+	if err := json.Unmarshal(bytes, &strOpts); err == nil {
+		for i, text := range strOpts {
+			if strings.TrimSpace(text) == "" {
+				continue
+			}
+			parts := strings.SplitN(text, ".", 2)
+			if len(parts) == 2 && parts[0] != "" && parts[1] != "" {
+				*o = append(*o, QuestionOption{Label: parts[0], Text: strings.TrimSpace(parts[1])})
+			} else {
+				label := string(rune('A' + i))
+				*o = append(*o, QuestionOption{Label: label, Text: strings.TrimSpace(text)})
+			}
+		}
+		return nil
+	}
+
+	return errors.New("failed to unmarshal JSON value for options")
 }
 
 // 实现 Valuer 接口

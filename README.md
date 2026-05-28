@@ -145,22 +145,3 @@ chmod +x docker-build.sh
   OS/Arch:     windows/amd64
 ```
 
-## API 文档
-
-### 健康检查接口
-
-- `GET /api/v1/health` - 健康检查接口
-
-```bash
-curl http://localhost:8080/api/v1/health
-```
-
-响应示例：
-```json
-{
-  "status": "ok"
-}
-```
-
-### 其他 API
-

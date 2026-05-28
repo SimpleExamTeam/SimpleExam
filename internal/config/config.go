@@ -57,6 +57,18 @@ type Config struct {
 		RefundQueryURL      string `yaml:"refund_query_url"`      // 退款查询URL（微信API）
 		CertPath            string `yaml:"cert_path"`             // 商户证书路径
 	} `yaml:"wechat"`
+
+	AI AIConfig `yaml:"ai"`
+}
+
+type AIConfig struct {
+	Explanation ExplanationConfig `yaml:"explanation"`
+}
+
+type ExplanationConfig struct {
+	AllowOverride bool   `yaml:"allow_override"`
+	APIKey        string `yaml:"api_key"`
+	APIURL        string `yaml:"api_url"`
 }
 
 var GlobalConfig *Config
@@ -148,6 +160,14 @@ func Load() (*Config, error) {
 	}
 	if config.WeChat.CertPath == "" {
 		config.WeChat.CertPath = "certs/apiclient_cert.p12"
+	}
+
+	// AI配置默认值和环境变量覆盖
+	if config.AI.Explanation.APIURL == "" {
+		config.AI.Explanation.APIURL = "https://api.deepseek.com/v1/chat/completions"
+	}
+	if apiKey := os.Getenv("DEEPSEEK_API_KEY"); apiKey != "" {
+		config.AI.Explanation.APIKey = apiKey
 	}
 
 	// 如果配置了 base_url，则自动拼接相对路径的 URL
