@@ -24,25 +24,25 @@ build:
 	@echo "Commit:      $(shell echo $(COMMIT_HASH) | cut -c1-7)"
 	@echo "Build Time:  $(BUILD_TIME)"
 	@go generate ./...
-	@go build -ldflags "$(LDFLAGS)" -o $(OUTPUT) .
+	@CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT) .
 	@echo "Build successful! Output: $(OUTPUT)"
 
 # 构建 Windows 版本
 build-windows:
 	@echo "Building for Windows..."
-	@GOOS=windows GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT).exe .
+	@GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT).exe .
 	@echo "Build successful! Output: $(OUTPUT).exe"
 
 # 构建 Linux 版本
 build-linux:
 	@echo "Building for Linux..."
-	@GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT)-linux .
+	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT)-linux .
 	@echo "Build successful! Output: $(OUTPUT)-linux"
 
 # 构建 macOS 版本
 build-darwin:
 	@echo "Building for macOS..."
-	@GOOS=darwin GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT)-darwin .
+	@GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o $(OUTPUT)-darwin .
 	@echo "Build successful! Output: $(OUTPUT)-darwin"
 
 # 构建所有平台
