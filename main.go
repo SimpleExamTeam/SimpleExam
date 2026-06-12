@@ -1,5 +1,5 @@
 // @title           SimpleExam API
-// @version         0.1.2
+// @version         0.1.4
 // @description     在线考试系统后端服务API文档
 // @termsOfService  https://github.com/SimpleExam
 
@@ -41,7 +41,7 @@ import (
 
 // 版本信息，编译时通过 ldflags 设置
 var (
-	Version    = "v0.1.2"
+	Version    = "v0.1.4"
 	CommitHash = "unknown"
 	BuildTime  = "unknown"
 )
