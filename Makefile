@@ -78,6 +78,16 @@ vet:
 	@echo "Vetting code..."
 	@go vet ./...
 
+# 生成Swagger API文档
+swagger:
+	@echo "Generating Swagger API documentation..."
+	@swag init -g main.go --output docs --parseInternal
+	@echo "Swagger documentation generated!"
+	@echo "Access at http://localhost:8080/swagger/index.html"
+
+# 生成Swagger API文档并构建
+build-swagger: swagger build
+
 # 显示帮助
 help:
 	@echo "Simple Exam Build System"
@@ -103,6 +113,8 @@ help:
 	@echo "  make docker-compose-up   - Start services with docker-compose"
 	@echo "  make docker-compose-down - Stop services with docker-compose"
 	@echo ""
+	@echo "  make swagger        - Generate Swagger API documentation"
+	@echo "  make build-swagger  - Generate Swagger docs and build"
 	@echo "  make help           - Show this help message"
 
 # Docker 命令

@@ -1,0 +1,2396 @@
+basePath: /api/v1
+definitions:
+  admin.CreateCardRequest:
+    properties:
+      amount:
+        type: number
+      course_id:
+        type: integer
+      expire_days:
+        type: integer
+      total:
+        type: integer
+    required:
+    - expire_days
+    - total
+    type: object
+  admin.CreateCourseRequest:
+    properties:
+      category_level1:
+        type: string
+      category_level2:
+        type: string
+      category_sort1:
+        type: integer
+      category_sort2:
+        type: integer
+      cover:
+        type: string
+      description:
+        type: string
+      exam_config:
+        items:
+          $ref: '#/definitions/model.ExamConfigItem'
+        type: array
+      expire_days:
+        type: integer
+      mock_exam_config:
+        $ref: '#/definitions/model.MockExamConfig'
+      name:
+        type: string
+      price:
+        type: number
+      sort:
+        type: integer
+    required:
+    - category_level1
+    - category_level2
+    - cover
+    - name
+    - price
+    type: object
+  admin.CreateOrderRequest:
+    properties:
+      amount:
+        type: number
+      course_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - amount
+    - course_id
+    - user_id
+    type: object
+  admin.CreateUserRequest:
+    properties:
+      avatar:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      is_admin:
+        type: boolean
+      nickname:
+        type: string
+      password:
+        type: string
+      province:
+        type: string
+      sex:
+        type: integer
+      username:
+        type: string
+    required:
+    - nickname
+    - password
+    - username
+    type: object
+  admin.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  admin.QuestionRequest:
+    properties:
+      answer:
+        type: string
+      course_id:
+        type: integer
+      explanation:
+        type: string
+      options:
+        items:
+          $ref: '#/definitions/model.QuestionOption'
+        type: array
+      question:
+        type: string
+      type:
+        type: string
+    required:
+    - answer
+    - course_id
+    - options
+    - question
+    - type
+    type: object
+  admin.UpdateCardRequest:
+    properties:
+      amount:
+        type: number
+      course_id:
+        type: integer
+      expire_days:
+        type: integer
+      total:
+        type: integer
+    type: object
+  admin.UpdateCourseRequest:
+    properties:
+      category_level1:
+        type: string
+      category_level2:
+        type: string
+      category_sort1:
+        type: integer
+      category_sort2:
+        type: integer
+      cover:
+        type: string
+      description:
+        type: string
+      exam_config:
+        items:
+          $ref: '#/definitions/model.ExamConfigItem'
+        type: array
+      expire_days:
+        type: integer
+      mock_exam_config:
+        $ref: '#/definitions/model.MockExamConfig'
+      name:
+        type: string
+      price:
+        type: number
+      sort:
+        type: integer
+    type: object
+  admin.UpdateFeedbackRequest:
+    properties:
+      reply_content:
+        type: string
+      status:
+        type: integer
+    type: object
+  admin.UpdateOrderRequest:
+    properties:
+      amount:
+        type: number
+      expire_time:
+        type: string
+      pay_time:
+        type: string
+      payment_type:
+        type: string
+      status:
+        type: string
+    type: object
+  admin.UpdateProfileRequest:
+    properties:
+      avatar:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      sex:
+        type: integer
+    type: object
+  admin.UpdateUserRequest:
+    properties:
+      avatar:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      is_admin:
+        type: boolean
+      nickname:
+        type: string
+      password:
+        type: string
+      province:
+        type: string
+      sex:
+        type: integer
+    type: object
+  api.CreateFeedbackRequest:
+    properties:
+      feedback_content:
+        type: string
+    required:
+    - feedback_content
+    type: object
+  api.CreatePaymentRequest:
+    properties:
+      course_id:
+        type: string
+      open_id:
+        type: string
+      total_fee:
+        type: integer
+    required:
+    - course_id
+    - open_id
+    - total_fee
+    type: object
+  api.GenerateExplanationRequest:
+    properties:
+      force:
+        type: boolean
+    type: object
+  api.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  api.RedeemCardRequest:
+    properties:
+      card_no:
+        type: string
+      course_id:
+        type: integer
+    required:
+    - card_no
+    - course_id
+    type: object
+  api.RefundRequest:
+    properties:
+      order_no:
+        description: 订单号
+        type: string
+      refund_fee:
+        description: 退款金额（元）
+        type: number
+      refund_reason:
+        description: 退款原因
+        type: string
+    required:
+    - order_no
+    - refund_fee
+    type: object
+  api.RegisterRequest:
+    properties:
+      nickname:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - nickname
+    - password
+    - username
+    type: object
+  api.UpdateProfileRequest:
+    properties:
+      avatar:
+        type: string
+      nickname:
+        type: string
+      open_id:
+        type: string
+    type: object
+  api.WXLoginRequest:
+    properties:
+      code:
+        type: string
+    required:
+    - code
+    type: object
+  api.WXUserInfoRequest:
+    properties:
+      userInfo:
+        $ref: '#/definitions/service.WXUserInfo'
+    required:
+    - userInfo
+    type: object
+  model.ExamConfigItem:
+    properties:
+      count:
+        type: integer
+      score:
+        type: integer
+      type:
+        type: string
+    type: object
+  model.MockExamConfig:
+    properties:
+      count:
+        type: integer
+      min:
+        type: integer
+      score:
+        type: integer
+    type: object
+  model.QuestionOption:
+    properties:
+      label:
+        type: string
+      text:
+        type: string
+    type: object
+  service.WXUserInfo:
+    properties:
+      avatarUrl:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      gender:
+        type: integer
+      nickName:
+        type: string
+      openid:
+        type: string
+      province:
+        type: string
+      unionId:
+        type: string
+      watermark:
+        properties:
+          appid:
+            type: string
+          timestamp:
+            type: integer
+        type: object
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@simpleexam.com
+    name: SimpleExam Support
+    url: https://github.com/SimpleExam
+  description: 在线考试系统后端服务API文档
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://github.com/SimpleExam
+  title: SimpleExam API
+  version: 0.1.2
+paths:
+  /admin/cards:
+    get:
+      description: 获取卡券列表(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 卡券号
+        in: query
+        name: card_no
+        type: string
+      - description: 课程ID
+        in: query
+        name: course_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 卡券列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取卡券列表
+      tags:
+      - 管理员-卡券管理
+    post:
+      consumes:
+      - application/json
+      description: 创建卡券(管理员)
+      parameters:
+      - description: 创建卡券请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.CreateCardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建卡券
+      tags:
+      - 管理员-卡券管理
+  /admin/cards/{id}:
+    delete:
+      description: 删除卡券(管理员)
+      parameters:
+      - description: 卡券ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除卡券
+      tags:
+      - 管理员-卡券管理
+    get:
+      description: 获取单个卡券详情(管理员)
+      parameters:
+      - description: 卡券ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 卡券详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个卡券
+      tags:
+      - 管理员-卡券管理
+    put:
+      consumes:
+      - application/json
+      description: 更新卡券(管理员)
+      parameters:
+      - description: 卡券ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新卡券请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateCardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新卡券
+      tags:
+      - 管理员-卡券管理
+  /admin/cards/{id}/records:
+    get:
+      description: 获取指定卡券的兑换记录(管理员)
+      parameters:
+      - description: 卡券ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 兑换记录
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取指定卡券的兑换记录
+      tags:
+      - 管理员-卡券管理
+  /admin/cards/records:
+    get:
+      description: 获取所有卡券兑换记录(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 卡券号
+        in: query
+        name: card_no
+        type: string
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 课程ID
+        in: query
+        name: course_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 兑换记录
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取所有卡券兑换记录
+      tags:
+      - 管理员-卡券管理
+  /admin/courses:
+    get:
+      description: 获取课程列表(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: keyword
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 课程列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程列表(管理员)
+      tags:
+      - 管理员-课程管理
+    post:
+      consumes:
+      - application/json
+      description: 创建课程(管理员)
+      parameters:
+      - description: 创建课程请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.CreateCourseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建课程
+      tags:
+      - 管理员-课程管理
+  /admin/courses/{id}:
+    delete:
+      description: 删除课程(管理员)
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除课程
+      tags:
+      - 管理员-课程管理
+    get:
+      description: 获取单个课程详情(管理员)
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 课程详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个课程
+      tags:
+      - 管理员-课程管理
+    put:
+      consumes:
+      - application/json
+      description: 更新课程信息(管理员)
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新课程请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateCourseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新课程
+      tags:
+      - 管理员-课程管理
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: 管理员使用用户名和密码登录
+      parameters:
+      - description: 登录请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 管理员登录
+      tags:
+      - 管理员-认证
+  /admin/orders:
+    get:
+      description: 获取所有订单列表(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 订单号
+        in: query
+        name: order_no
+        type: string
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 用户ID
+        in: query
+        name: user_id
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: string
+      - description: 支付类型
+        in: query
+        name: payment_type
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 订单列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取订单列表(管理员)
+      tags:
+      - 管理员-订单管理
+    post:
+      consumes:
+      - application/json
+      description: 管理员创建订单
+      parameters:
+      - description: 创建订单请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建订单(管理员)
+      tags:
+      - 管理员-订单管理
+  /admin/orders/{id}:
+    delete:
+      description: 删除订单(管理员)
+      parameters:
+      - description: 订单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除订单
+      tags:
+      - 管理员-订单管理
+    get:
+      description: 获取单个订单详情(管理员)
+      parameters:
+      - description: 订单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 订单详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个订单
+      tags:
+      - 管理员-订单管理
+    put:
+      consumes:
+      - application/json
+      description: 更新订单信息(管理员)
+      parameters:
+      - description: 订单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新订单请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新订单
+      tags:
+      - 管理员-订单管理
+  /admin/orders/refund:
+    post:
+      consumes:
+      - application/json
+      description: 申请退款
+      parameters:
+      - description: 退款请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.RefundRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 退款结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 申请退款
+      tags:
+      - 支付
+  /admin/orders/refund/{order_no}:
+    get:
+      description: 查询退款状态
+      parameters:
+      - description: 订单号
+        in: path
+        name: order_no
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 退款状态
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 查询退款
+      tags:
+      - 支付
+  /admin/questions:
+    get:
+      description: 获取题目列表(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 题目类型
+        in: query
+        name: type
+        type: string
+      - description: 题目内容搜索
+        in: query
+        name: question
+        type: string
+      - description: 课程ID
+        in: query
+        name: course_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 题目列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取题目列表
+      tags:
+      - 管理员-题库管理
+    post:
+      consumes:
+      - application/json
+      description: 创建题目(管理员)
+      parameters:
+      - description: 创建题目请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.QuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建题目
+      tags:
+      - 管理员-题库管理
+  /admin/questions/{id}:
+    delete:
+      description: 删除题目(管理员)
+      parameters:
+      - description: 题目ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除题目
+      tags:
+      - 管理员-题库管理
+    get:
+      description: 获取单个题目详情(管理员)
+      parameters:
+      - description: 题目ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 题目详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个题目
+      tags:
+      - 管理员-题库管理
+    put:
+      consumes:
+      - application/json
+      description: 更新题目(管理员)
+      parameters:
+      - description: 题目ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新题目请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.QuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新题目
+      tags:
+      - 管理员-题库管理
+  /admin/questions/batch-delete:
+    post:
+      consumes:
+      - application/json
+      description: 批量删除题目(管理员)
+      parameters:
+      - description: 批量删除请求(IDs)
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 批量删除题目
+      tags:
+      - 管理员-题库管理
+  /admin/questions/clear-by-course/{course_id}:
+    delete:
+      description: 一键清空指定课程的全部题目
+      parameters:
+      - description: 课程ID
+        in: path
+        name: course_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 清空成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 清空课程题目
+      tags:
+      - 管理员-题库管理
+  /admin/questions/export:
+    get:
+      description: 导出指定课程的题库(CSV)
+      parameters:
+      - description: 课程ID
+        in: query
+        name: course_id
+        type: integer
+      produces:
+      - text/csv
+      responses:
+        "200":
+          description: CSV文件
+          schema:
+            type: file
+      security:
+      - BearerAuth: []
+      summary: 导出题库
+      tags:
+      - 管理员-题库管理
+  /admin/questions/import:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 从CSV文件导入题库
+      parameters:
+      - description: CSV文件
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 导入结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 导入题库
+      tags:
+      - 管理员-题库管理
+  /admin/system/login-logs:
+    get:
+      description: 获取管理员登录日志列表
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      - description: 开始时间
+        in: query
+        name: start_time
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录日志
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取登录日志
+      tags:
+      - 管理员-系统
+  /admin/system/profile:
+    get:
+      description: 获取当前管理员个人信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 管理员信息
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取管理员个人信息
+      tags:
+      - 管理员-系统
+    put:
+      consumes:
+      - application/json
+      description: 更新当前管理员个人信息
+      parameters:
+      - description: 更新信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新管理员个人信息
+      tags:
+      - 管理员-系统
+  /admin/system/sales-statistics:
+    get:
+      description: 获取销售统计数据
+      parameters:
+      - description: 统计维度(按日/月/年)
+        in: query
+        name: dimension
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 销售统计
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取销售统计
+      tags:
+      - 管理员-系统
+  /admin/system/system-info:
+    get:
+      description: 获取系统信息统计数据
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 系统信息
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取系统信息
+      tags:
+      - 管理员-系统
+  /admin/users:
+    get:
+      description: 获取用户列表(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: keyword
+        type: string
+      - description: 是否管理员
+        in: query
+        name: is_admin
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取用户列表
+      tags:
+      - 管理员-用户管理
+    post:
+      consumes:
+      - application/json
+      description: 创建用户(管理员)
+      parameters:
+      - description: 创建用户请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建用户
+      tags:
+      - 管理员-用户管理
+  /admin/users/{id}:
+    delete:
+      description: 删除用户(管理员)
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除用户
+      tags:
+      - 管理员-用户管理
+    get:
+      description: 获取单个用户详情(管理员)
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个用户
+      tags:
+      - 管理员-用户管理
+    put:
+      consumes:
+      - application/json
+      description: 更新用户信息(管理员)
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新用户请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新用户
+      tags:
+      - 管理员-用户管理
+  /admin/users/feedback:
+    get:
+      description: 获取所有用户反馈(管理员)
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      - description: 开始时间
+        in: query
+        name: start_time
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 反馈列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取所有反馈
+      tags:
+      - 管理员-反馈管理
+  /admin/users/feedback/{id}:
+    delete:
+      description: 删除反馈(管理员)
+      parameters:
+      - description: 反馈ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 删除反馈
+      tags:
+      - 管理员-反馈管理
+    get:
+      description: 获取单个反馈详情(管理员)
+      parameters:
+      - description: 反馈ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 反馈详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取单个反馈
+      tags:
+      - 管理员-反馈管理
+    put:
+      consumes:
+      - application/json
+      description: 更新反馈(管理员回复等)
+      parameters:
+      - description: 反馈ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新反馈请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateFeedbackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新反馈
+      tags:
+      - 管理员-反馈管理
+  /admin/wechat/login:
+    post:
+      consumes:
+      - application/json
+      description: 管理员使用微信小程序code登录
+      parameters:
+      - description: 微信登录请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.WXLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 管理员微信小程序登录
+      tags:
+      - 管理员-认证
+  /admin/wechat/oauth/callback:
+    get:
+      description: 管理员微信网页授权回调处理
+      parameters:
+      - description: 授权code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 管理员微信网页授权回调
+      tags:
+      - 管理员-微信
+  /admin/wechat/oauth/url:
+    get:
+      description: 获取管理员微信网页授权URL
+      parameters:
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 授权URL
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 获取管理员微信网页授权URL
+      tags:
+      - 管理员-微信
+  /admin/wechat/qrcode/callback:
+    get:
+      description: 管理员扫码登录回调处理
+      parameters:
+      - description: 授权code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 管理员扫码登录回调
+      tags:
+      - 管理员-微信
+  /admin/wechat/qrcode/check:
+    get:
+      description: 检查管理员扫码登录二维码状态
+      parameters:
+      - description: 场景值
+        in: query
+        name: scene_str
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 二维码状态
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 检查管理员二维码状态
+      tags:
+      - 管理员-微信
+  /admin/wechat/qrcode/create:
+    post:
+      description: 创建管理员扫码登录二维码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 二维码信息
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 创建管理员登录二维码
+      tags:
+      - 管理员-微信
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 使用用户名和密码登录
+      parameters:
+      - description: 登录请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 用户登录
+      tags:
+      - 认证
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: 注册新用户
+      parameters:
+      - description: 注册请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 注册成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 用户注册
+      tags:
+      - 认证
+  /auth/wx/login:
+    post:
+      consumes:
+      - application/json
+      description: 使用微信小程序code登录
+      parameters:
+      - description: 微信登录请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.WXLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 微信小程序登录
+      tags:
+      - 认证
+  /courses:
+    get:
+      description: 获取所有课程分类
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 分类列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程分类列表
+      tags:
+      - 课程
+  /courses/{id}:
+    get:
+      description: 获取指定课程的详情
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 课程详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程详情
+      tags:
+      - 课程
+  /courses/{id}/exam:
+    get:
+      description: 获取指定课程的考试题目
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 考试题目
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程考试
+      tags:
+      - 课程
+  /courses/{id}/exam/submit:
+    post:
+      consumes:
+      - application/json
+      description: 提交指定课程的考试答案
+      parameters:
+      - description: 课程ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 考试答案
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 考试结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 提交课程考试
+      tags:
+      - 课程
+  /courses/category/{id}:
+    get:
+      description: 获取指定课程分类的详情
+      parameters:
+      - description: 分类ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 分类详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程分类详情
+      tags:
+      - 课程
+  /exams/result:
+    get:
+      description: 获取当前用户的考试结果列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 考试结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取考试结果
+      tags:
+      - 考试
+  /health:
+    get:
+      description: 简单健康检查，用于Docker健康检查和负载均衡器
+      responses:
+        "200":
+          description: '{"status":"ok"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 健康检查
+      tags:
+      - 系统
+  /orders:
+    get:
+      description: 获取当前用户的订单列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 订单列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取订单列表
+      tags:
+      - 订单
+    post:
+      consumes:
+      - application/json
+      description: 创建订单
+      parameters:
+      - description: 创建订单请求
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 订单信息
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建订单
+      tags:
+      - 订单
+  /orders/{id}:
+    get:
+      description: 获取订单详情
+      parameters:
+      - description: 订单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 订单详情
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取订单详情
+      tags:
+      - 订单
+  /payments/cancel/{order_no}:
+    post:
+      description: 取消支付订单
+      parameters:
+      - description: 订单号
+        in: path
+        name: order_no
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 取消成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 取消支付
+      tags:
+      - 支付
+  /payments/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建支付订单
+      parameters:
+      - description: 支付请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreatePaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 支付结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 创建支付
+      tags:
+      - 支付
+  /payments/notify:
+    post:
+      consumes:
+      - application/json
+      description: 微信支付回调通知处理
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 回调处理结果
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 支付回调
+      tags:
+      - 支付
+  /payments/query/{order_no}:
+    get:
+      description: 查询支付订单状态
+      parameters:
+      - description: 订单号
+        in: path
+        name: order_no
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 支付状态
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 查询支付
+      tags:
+      - 支付
+  /payments/redeem-card:
+    post:
+      consumes:
+      - application/json
+      description: 使用卡券兑换课程
+      parameters:
+      - description: 兑换请求
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.RedeemCardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 兑换成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 兑换卡券
+      tags:
+      - 支付
+  /payments/refund/notify:
+    post:
+      consumes:
+      - text/xml
+      description: 微信退款回调通知处理
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: 回调处理结果
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 退款回调
+      tags:
+      - 支付
+  /practice/question/{id}/explanation:
+    post:
+      consumes:
+      - application/json
+      description: 生成指定题目的AI解析
+      parameters:
+      - description: 题目ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 生成参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.GenerateExplanationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 解析结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 生成题目解析
+      tags:
+      - 练习
+  /practice/submit:
+    post:
+      consumes:
+      - application/json
+      description: 提交练习答案
+      parameters:
+      - description: 练习答案
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 练习结果
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 提交练习
+      tags:
+      - 练习
+  /practice/wrong-questions:
+    delete:
+      description: 清空当前用户的全部错题记录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 清空成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 清空错题
+      tags:
+      - 练习
+    get:
+      description: 获取错题统计信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 错题统计
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取错题统计
+      tags:
+      - 练习
+  /practice/wrong-questions/{course_id}:
+    get:
+      description: 获取指定课程的错题列表
+      parameters:
+      - description: 课程ID
+        in: path
+        name: course_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 错题列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程错题
+      tags:
+      - 练习
+  /questions/{course_id}:
+    get:
+      description: 获取指定课程的题目列表
+      parameters:
+      - description: 课程ID
+        in: path
+        name: course_id
+        required: true
+        type: integer
+      - description: 题目类型(如:single_choice)
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 题目列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取课程题目
+      tags:
+      - 题目
+  /user/feedback:
+    get:
+      description: 获取当前用户的反馈列表
+      parameters:
+      - description: 页码(默认1)
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数(默认10)
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 反馈列表
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取用户反馈列表
+      tags:
+      - 反馈
+    post:
+      consumes:
+      - application/json
+      description: 提交用户反馈
+      parameters:
+      - description: 反馈内容
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateFeedbackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 提交成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 提交用户反馈
+      tags:
+      - 反馈
+  /user/profile:
+    get:
+      description: 获取当前登录用户的个人信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户信息
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取用户个人信息
+      tags:
+      - 用户
+  /user/profile/update:
+    put:
+      consumes:
+      - application/json
+      description: 更新当前登录用户的个人信息
+      parameters:
+      - description: 更新信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新用户个人信息
+      tags:
+      - 用户
+  /user/token/expire-time:
+    get:
+      description: 获取当前用户Token的过期时间
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 过期时间
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 获取Token过期时间
+      tags:
+      - 用户
+  /user/wx/update-info:
+    post:
+      consumes:
+      - application/json
+      description: 更新微信用户信息
+      parameters:
+      - description: 微信用户信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.WXUserInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新成功
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: 更新微信用户信息
+      tags:
+      - 用户
+  /wechat/oauth/callback:
+    get:
+      description: 微信网页授权回调处理
+      parameters:
+      - description: 授权code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 微信网页授权回调
+      tags:
+      - 微信
+  /wechat/oauth/url:
+    get:
+      description: 获取微信网页授权URL
+      parameters:
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 授权URL
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 获取微信网页授权URL
+      tags:
+      - 微信
+  /wechat/qrcode/callback:
+    get:
+      description: 微信扫码登录回调处理
+      parameters:
+      - description: 授权code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: 自定义状态参数
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 扫码登录回调
+      tags:
+      - 微信
+  /wechat/qrcode/check:
+    get:
+      description: 检查微信扫码登录二维码状态
+      parameters:
+      - description: 场景值
+        in: query
+        name: scene_str
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 二维码状态
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 检查二维码状态
+      tags:
+      - 微信
+  /wechat/qrcode/create:
+    post:
+      description: 创建微信扫码登录二维码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 二维码信息
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 创建登录二维码
+      tags:
+      - 微信
+securityDefinitions:
+  BearerAuth:
+    description: Bearer token authentication
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

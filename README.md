@@ -11,6 +11,7 @@
 - 微信SDK: 微信登录和支付
 - Zap: 高性能日志库
 - Lumberjack: 日志轮转
+- Swaggo: API 文档自动生成
 
 ## 项目结构
 
@@ -42,6 +43,7 @@
 │   └── utils/            # 工具函数
 ├── logs/                  # 日志文件目录
 ├── main.go                # 程序入口
+├── api_docs.go            # Swagger API 文档注解
 ├── embed.go               # 静态资源嵌入
 ├── Makefile               # 构建脚本
 ├── build.sh               # Linux/macOS 构建脚本
@@ -126,6 +128,22 @@ chmod +x docker-build.sh
 # 重置管理员密码
 ./simpleexam reset-password -u admin -p newpassword
 ```
+
+## API 文档
+
+项目使用 [swaggo/swag](https://github.com/swaggo/swag) 自动生成 Swagger API 文档。
+
+### 生成文档
+
+```bash
+make swagger
+```
+
+运行后访问 `http://localhost:8080/swagger/index.html` 查看在线文档。
+
+### 添加新 API 的文档
+
+在 `api_docs.go` 中为对应接口添加 Swagger 注解（`@Summary`、`@Param`、`@Router` 等），然后运行 `make swagger` 重新生成。
 
 启动时会显示 ASCII 艺术横幅和版本信息：
 ```

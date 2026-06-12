@@ -1003,3 +1003,43 @@ func BatchDeleteQuestions(c *gin.Context) {
 		},
 	})
 }
+
+// ClearQuestionsByCourse 一键清空指定课程的全部题目
+func ClearQuestionsByCourse(c *gin.Context) {
+	courseId, err := strconv.ParseUint(c.Param("course_id"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": 400,
+			"msg":  "课程ID格式错误",
+		})
+		return
+	}
+
+	// 验证课程是否存在
+	var course model.Course
+	if err := database.DB.First(&course, courseId).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": 404,
+			"msg":  "课程不存在",
+		})
+		return
+	}
+
+	// 删除该课程下的所有题目
+	result := database.DB.Where("course_id = ?", courseId).Delete(&model.Question{})
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 500,
+			"msg":  "清空题目失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "清空成功",
+		"data": gin.H{
+			"deleted_count": result.RowsAffected,
+		},
+	})
+}

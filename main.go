@@ -1,3 +1,22 @@
+// @title           SimpleExam API
+// @version         0.1.2
+// @description     在线考试系统后端服务API文档
+// @termsOfService  https://github.com/SimpleExam
+
+// @contact.name   SimpleExam Support
+// @contact.url    https://github.com/SimpleExam
+// @contact.email  support@simpleexam.com
+
+// @license.name   MIT
+// @license.url    https://opensource.org/licenses/MIT
+
+// @host           localhost:8080
+// @BasePath       /api/v1
+
+// @securityDefinitions.apikey  BearerAuth
+// @in                          header
+// @name                        Authorization
+// @description                 Bearer token authentication
 package main
 
 import (

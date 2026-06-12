@@ -9,13 +9,20 @@ import (
 	"strings"
 	"time"
 
+	_ "exam-system/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // SetupRoutes 配置所有路由
 func SetupRoutes(r *gin.Engine, userFS, adminFS http.FileSystem) {
 	// 健康检查接口（不需要任何中间件）
 	r.GET("/api/v1/health", api.SimpleHealthCheck)
+
+	// Swagger API文档
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 设置静态文件路由 - 直接访问静态资源文件
 	r.StaticFS("/static/user", userFS)
@@ -224,6 +231,7 @@ func setupAdminAPIRoutes(r *gin.Engine) {
 			questions.PUT("/:id", admin.UpdateQuestion)                 // 更新题目
 			questions.DELETE("/:id", admin.DeleteQuestion)              // 删除题目
 			questions.POST("/batch-delete", admin.BatchDeleteQuestions) // 批量删除题目
+			questions.DELETE("/clear-by-course/:course_id", admin.ClearQuestionsByCourse) // 一键清空指定课程的全部题目
 			questions.GET("/export", admin.ExportQuestions)             // 导出题库
 			questions.POST("/import", admin.ImportQuestions)            // 导入题库
 		}
